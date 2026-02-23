@@ -94,5 +94,36 @@ namespace LuxurySalon.Web.Controllers
 
             return Conflict(new { Message = "Seçilen saat dilimi artık uygun değil. Lütfen başka bir zaman seçin." });
         }
+        [HttpGet]
+        public async Task<IActionResult> MyAppointments()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var guestId = Request.Cookies["GuestId"];
+
+            var query = _context.Appointments
+                .Include(a => a.Service)
+                .Include(a => a.Stylist)
+                .AsQueryable();
+
+            if (!string.IsNullOrEmpty(userId))
+            {
+                query = query.Where(a => a.CustomerId == userId);
+            }
+            else if (!string.IsNullOrEmpty(guestId))
+            {
+                query = query.Where(a => a.GuestIdentifier == guestId);
+            }
+            else
+            {
+                // No identity found, return empty list or specific message
+                return View(new List<LuxurySalon.Domain.Entities.Appointment>());
+            }
+
+            var appointments = await query
+                .OrderByDescending(a => a.StartTime)
+                .ToListAsync();
+
+            return View(appointments);
+        }
     }
 }
