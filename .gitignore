@@ -1,0 +1,46 @@
+# .gitignore for ASP.NET Core
+[Bb]in/
+[Oo]bj/
+.vs/
+.idea/
+.vscode/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Aa]rchives/
+_ReSharper*/
+
+# Environment files
+.env
+.env.*
+secrets.json
+appsettings.Development.json
+
+# Logs
+logs/
+*.log
+
+# Publish output
+publish/
+*.zip
+*.7z
+*.rar
+
+# Database
+*.db
+*.db-shm
+*.db-wal
+*.sqlite
+*.sqlite3
+*.mdf
+*.ldf
+
+# OS generated files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,49 @@
+@model IEnumerable<LuxurySalon.Domain.Entities.Stylist>
+@{
+    ViewData["Title"] = "Stylists Management";
+}
+
+<div class="space-y-8">
+@if (User.IsInRole("Admin"))
+    {
+        <div class="flex justify-between items-center">
+            <h1 class="text-4xl font-serif text-salon-gold">Uzmanlarımız (Yönetim)</h1>
+            <a asp-action="Create" class="bg-salon-gold hover:bg-salon-gold/80 text-salon-black px-6 py-2 rounded font-medium transition-all uppercase tracking-widest text-sm">Yeni Uzman Ekle</a>
+        </div>
+    }
+    else
+    {
+        <div class="text-center space-y-4">
+            <h1 class="text-5xl font-serif text-salon-gold">Uzmanlarımız</h1>
+            <p class="text-salon-cream/60 font-light max-w-2xl mx-auto">
+                Her biri kendi alanında uzman, stil sahibi ve vizyoner ekibimizle tanışın. Sizin için en iyisini planlamak için buradayız.
+            </p>
+        </div>
+    }
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        @foreach (var item in Model)
+        {
+            <div class="bg-salon-dark-gray border border-salon-gold/20 p-8 rounded-lg shadow-xl flex flex-col items-center text-center group hover:border-salon-gold/50 transition-all">
+                <div class="w-32 h-32 rounded-full overflow-hidden border-2 border-salon-gold/30 mb-6 group-hover:scale-110 transition-transform">
+                    <img src="/images/@item.ImageUrl" alt="@item.FullName" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" onerror="this.src='https://ui-avatars.com/api/?name=@item.FullName&background=1a1a1a&color=c5a059'"/>
+                </div>
+                <h3 class="text-2xl font-serif text-salon-gold mb-2">@item.FullName</h3>
+                <p class="text-salon-cream/60 text-sm italic mb-4">Mesai: @item.WorkStartTime.ToString(@"hh\:mm") - @item.WorkEndTime.ToString(@"hh\:mm")</p>
+                <p class="text-salon-cream/80 line-clamp-3 mb-6 h-18">@item.Bio</p>
+                
+                <div class="mt-auto flex flex-col space-y-4 w-full border-t border-salon-gold/10 pt-6">
+                    <a asp-controller="Booking" asp-action="Index" class="bg-salon-gold text-salon-black px-6 py-2 rounded text-[10px] uppercase tracking-widest font-bold hover:bg-white transition-all duration-300">Bu Uzmandan Randevu Al</a>
+                    
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <div class="flex justify-center space-x-6">
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="text-salon-cream hover:text-salon-gold transition-colors text-xs uppercase tracking-widest">Düzenle</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" onclick="return confirm('Bu uzmanı pasife almak istediğinize emin misiniz?')" class="text-red-400 hover:text-red-300 transition-colors text-xs uppercase tracking-widest">Pasife Al</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </div>
+</div>

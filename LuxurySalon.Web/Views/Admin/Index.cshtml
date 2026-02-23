@@ -1,0 +1,69 @@
+@using LuxurySalon.Application.Interfaces
+@model IEnumerable<AdminAppointmentDto>
+@{
+    ViewData["Title"] = "Admin Dashboard";
+    var stats = ViewBag.Stats as AdminDashboardStatsDto;
+}
+
+<div class="space-y-8">
+    <div class="flex justify-between items-center">
+        <h1 class="text-4xl font-serif text-salon-gold">Yönetim Paneli</h1>
+        <div class="text-salon-cream/60">@DateTime.Now.ToString("D")</div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="bg-salon-dark-gray border border-salon-gold/20 p-6 rounded-lg shadow-xl">
+            <div class="text-salon-cream/60 text-sm uppercase tracking-wider mb-2">Toplam Hizmet</div>
+            <div class="text-3xl font-serif text-salon-gold">@stats?.TotalServices</div>
+        </div>
+        <div class="bg-salon-dark-gray border border-salon-gold/20 p-6 rounded-lg shadow-xl">
+            <div class="text-salon-cream/60 text-sm uppercase tracking-wider mb-2">Toplam Uzman</div>
+            <div class="text-3xl font-serif text-salon-gold">@stats?.TotalStylists</div>
+        </div>
+        <div class="bg-salon-dark-gray border border-salon-gold/20 p-6 rounded-lg shadow-xl">
+            <div class="text-salon-cream/60 text-sm uppercase tracking-wider mb-2">Bekleyen Randevu</div>
+            <div class="text-3xl font-serif text-salon-gold">@stats?.PendingAppointments</div>
+        </div>
+        <div class="bg-salon-dark-gray border border-salon-gold/20 p-6 rounded-lg shadow-xl">
+            <div class="text-salon-cream/60 text-sm uppercase tracking-wider mb-2">Onaylı Randevu</div>
+            <div class="text-3xl font-serif text-salon-gold">@stats?.ConfirmedAppointments</div>
+        </div>
+    </div>
+
+    <!-- Recent Appointments Table -->
+    <div class="bg-salon-dark-gray border border-salon-gold/20 rounded-lg overflow-hidden shadow-2xl">
+        <div class="p-6 border-b border-salon-gold/10">
+            <h2 class="text-2xl font-serif text-salon-gold">Son Randevular</h2>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left">
+                <thead class="bg-salon-black text-salon-gold text-xs uppercase tracking-widest">
+                    <tr>
+                        <th class="px-6 py-4 font-medium">Müşteri</th>
+                        <th class="px-6 py-4 font-medium">Uzman</th>
+                        <th class="px-6 py-4 font-medium">Hizmet</th>
+                        <th class="px-6 py-4 font-medium">Tarih</th>
+                        <th class="px-6 py-4 font-medium">Durum</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-salon-gold/5 text-salon-cream">
+                    @foreach (var item in Model)
+                    {
+                        <tr class="hover:bg-salon-gold/5 transition-colors">
+                            <td class="px-6 py-4">@item.CustomerName</td>
+                            <td class="px-6 py-4">@item.StylistName</td>
+                            <td class="px-6 py-4">@item.ServiceName</td>
+                            <td class="px-6 py-4">@item.StartTime.ToString("g")</td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 rounded-full text-xs @(item.Status == "Confirmed" ? "bg-green-900/40 text-green-400" : (item.Status == "Cancelled" ? "bg-red-900/40 text-red-400" : "bg-salon-gold/20 text-salon-gold"))">
+                                    @(item.Status == "Confirmed" ? "Onaylandı" : (item.Status == "Cancelled" ? "İptal Edildi" : "Beklemede"))
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

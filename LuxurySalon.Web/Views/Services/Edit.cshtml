@@ -1,0 +1,66 @@
+@model LuxurySalon.Domain.Entities.Service
+@{
+    var isEdit = Model?.Id > 0;
+    ViewData["Title"] = isEdit ? "Hizmeti Düzenle" : "Yeni Hizmet Ekle";
+}
+
+<div class="max-w-3xl mx-auto">
+    <div class="mb-12">
+        <h1 class="text-4xl font-serif text-salon-gold">@ViewData["Title"]</h1>
+        <p class="text-salon-cream/60 mt-2">Salonda sunulan ayrıcalıklı hizmetlerin detaylarını belirleyin.</p>
+    </div>
+
+    <form asp-action="@(isEdit ? "Edit" : "Create")" method="post" class="space-y-8 bg-salon-dark-gray border border-salon-gold/20 p-8 rounded-lg shadow-2xl">
+        @Html.AntiForgeryToken()
+        <div asp-validation-summary="ModelOnly" class="text-red-400 text-sm italic"></div>
+        
+        @if (isEdit)
+        {
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="CreatedAt" />
+        }
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="space-y-2">
+                <label asp-for="Name" class="block text-salon-gold uppercase tracking-widest text-xs font-bold">Hizmet Adı</label>
+                <input asp-for="Name" class="w-full bg-salon-black border border-salon-gold/30 rounded px-4 py-3 text-salon-cream focus:border-salon-gold outline-none transition-all" placeholder="Örn: Özel Kesim & Tasarım" />
+                <span asp-validation-for="Name" class="text-red-400 text-xs italic"></span>
+            </div>
+
+            <div class="space-y-2">
+                <label asp-for="Price" class="block text-salon-gold uppercase tracking-widest text-xs font-bold">Fiyat (TL)</label>
+                <input asp-for="Price" type="number" step="0.01" class="w-full bg-salon-black border border-salon-gold/30 rounded px-4 py-3 text-salon-cream focus:border-salon-gold outline-none transition-all" />
+                <span asp-validation-for="Price" class="text-red-400 text-xs italic"></span>
+            </div>
+
+            <div class="space-y-2">
+                <label asp-for="DurationInMinutes" class="block text-salon-gold uppercase tracking-widest text-xs font-bold">Süre (Dakika)</label>
+                <input asp-for="DurationInMinutes" type="number" class="w-full bg-salon-black border border-salon-gold/30 rounded px-4 py-3 text-salon-cream focus:border-salon-gold outline-none transition-all" />
+                <span asp-validation-for="DurationInMinutes" class="text-red-400 text-xs italic"></span>
+            </div>
+
+            <div class="flex items-center space-x-4 pt-6">
+                <input asp-for="IsActive" type="checkbox" class="w-5 h-5 accent-salon-gold bg-salon-black border-salon-gold/30 rounded" />
+                <label asp-for="IsActive" class="text-salon-cream uppercase tracking-widest text-xs">Aktif ve Görünür</label>
+            </div>
+        </div>
+
+        <div class="space-y-2">
+            <label asp-for="Description" class="block text-salon-gold uppercase tracking-widest text-xs font-bold">Açıklama</label>
+            <textarea asp-for="Description" rows="4" class="w-full bg-salon-black border border-salon-gold/30 rounded px-4 py-3 text-salon-cream focus:border-salon-gold outline-none transition-all" placeholder="Hizmet detaylarını ve sunulan özel deneyimi açıklayın..."></textarea>
+            <span asp-validation-for="Description" class="text-red-400 text-xs italic"></span>
+        </div>
+
+        <div class="flex justify-between items-center pt-8 border-t border-salon-gold/10">
+            <a asp-action="Index" class="text-salon-cream/60 hover:text-salon-cream transition-colors uppercase tracking-widest text-xs">Listeye Dön</a>
+            <button type="submit" class="bg-salon-gold hover:bg-salon-gold/80 text-salon-black px-10 py-3 rounded font-bold transition-all uppercase tracking-widest text-sm shadow-xl">
+                @(isEdit ? "Hizmeti Güncelle" : "Hizmet Oluştur")
+            </button>
+        </div>
+    </form>
+</div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

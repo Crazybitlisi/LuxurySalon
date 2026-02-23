@@ -1,0 +1,15 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<ul class="flex items-center space-x-6">
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="flex items-center space-x-4">
+        <span class="text-salon-cream/80 text-sm font-light">Merhaba, <span class="text-salon-gold font-medium">@User.Identity?.Name</span></span>
+        <form class="inline" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button type="submit" class="text-salon-cream/50 hover:text-salon-gold text-xs uppercase tracking-widest transition-colors duration-300 border-b border-transparent hover:border-salon-gold">Çıkış Yap</button>
+        </form>
+    </li>
+}
+</ul>
