@@ -1,46 +1,66 @@
-# .gitignore for ASP.NET Core
+# ========================
+# ASP.NET Core / .NET
+# ========================
+
+# Build folders
 [Bb]in/
 [Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+
+# Visual Studio
 .vs/
 .idea/
 .vscode/
-
-# User-specific files
-*.rsuser
 *.suo
 *.user
 *.userosscache
 *.sln.docstates
-
-# Build results
-[Aa]rchives/
-_ReSharper*/
-
-# Environment files
-.env
-.env.*
-secrets.json
-appsettings.Development.json
+*.rsuser
 
 # Logs
 logs/
 *.log
 
-# Publish output
+# Environment
+.env
+.env.*
+secrets.json
+appsettings.Development.json
+
+# Publish
 publish/
-*.zip
-*.7z
-*.rar
+*.publish.xml
+*.azurePubxml
+*.pubxml
+*.publishproj
+
+# NuGet
+*.nupkg
+*.snupkg
+**/[Pp]ackages/*
+!**/[Pp]ackages/build/
 
 # Database
 *.db
-*.db-shm
-*.db-wal
 *.sqlite
 *.sqlite3
 *.mdf
 *.ldf
 
-# OS generated files
+# Node
+node_modules/
+
+# OS
 .DS_Store
 Thumbs.db
+
+# Coverage
+coverage*.json
+coverage*.xml
+coverage*.info
+
+# Test Results
+[Tt]est[Rr]esult*/
