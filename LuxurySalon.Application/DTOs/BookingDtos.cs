@@ -4,7 +4,9 @@ namespace LuxurySalon.Application.DTOs
 {
     public class SlotDto
     {
-    akıllı ol pezevenk 
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public bool IsAvailable { get; set; } = true;
     }
 
     public class CreateAppointmentRequest
